@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace USBBatteryController
+namespace PoliceSoft
 {
     public class VersionFormatter
     {
