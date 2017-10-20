@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:UPSBatteryController.Presentation">
+    <ImageBrush ImageSource="/UPSBatteryController.Presentation;component/battery_settings.ico"
+                x:Key="ApplicationIcon"/>
+    <ImageBrush ImageSource="/UPSBatteryController.Presentation;component/Images/left.png"
+                x:Key="BackArrow"/>
+    <ImageBrush ImageSource="/UPSBatteryController.Presentation;component/Images/ic_action_bar_settings.png"
+                x:Key="Settings"/>
+    <ImageBrush ImageSource="/UPSBatteryController.Presentation;component/Images/maximize.png"
+                x:Key="Maximize"/>
+    <ImageBrush ImageSource="/UPSBatteryController.Presentation;component/Images/minimize.png"
+                x:Key="Minimize"/>
+    <ImageBrush ImageSource="/UPSBatteryController.Presentation;component/Images/close.png"
+                x:Key="Close"/>
+    
+</ResourceDictionary>

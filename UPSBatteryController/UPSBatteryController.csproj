@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5574B2C1-0663-4106-8A96-2F99A61490C4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UPSBatteryController</RootNamespace>
+    <AssemblyName>UPSBatteryController</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>tray_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GroupAdr.Library, Version=1.0.1.29, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GroupAdr.Library.1.0.1.29\lib\net40\GroupAdr.Library.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GroupAdr.Logger, Version=1.1.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GroupAdr.Logger.1.1.0.14\lib\net40\GroupAdr.Logger.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GroupAdr.WpfLibrary, Version=1.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GroupAdr.WpfLibrary.1.0.0.14\lib\net45\GroupAdr.WpfLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.5.0, Culture=neutral, PublicKeyToken=9dea7c6e17aa31ff, processorArchitecture=MSIL">
+      <HintPath>..\packages\ICSharpCode.SharpZipLib.Patched.0.86.5\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.3.2\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <HintPath>..\packages\System.Net.Http.2.0.20126.16343\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WpfApplicationFramework, Version=3.2.0.450, Culture=neutral, PublicKeyToken=1d6a5af5fe952afb, processorArchitecture=MSIL">
+      <HintPath>..\packages\waf.3.2.0\lib\net45\WpfApplicationFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Version.cs">
+      <Link>Properties\Version.cs</Link>
+    </Compile>
+    <Compile Include="Controllers\Application\ApplicationController.cs" />
+    <Compile Include="Controllers\Application\IApplicationController.cs" />
+    <Compile Include="Controllers\Battery\BatteryController.cs" />
+    <Compile Include="Controllers\Battery\IBatteryController.cs" />
+    <Compile Include="Controllers\Tray\INotificationController.cs" />
+    <Compile Include="Controllers\Tray\ITrayController.cs" />
+    <Compile Include="Controllers\Tray\TrayController.cs" />
+    <Compile Include="Icons\Icons.cs" />
+    <Compile Include="Diagnostics\AppNotFoundException.cs" />
+    <Compile Include="Diagnostics\AppRunner.cs" />
+    <Compile Include="Diagnostics\CmdResult.cs" />
+    <Compile Include="Diagnostics\CmdRunner.cs" />
+    <Compile Include="Diagnostics\OutputBuffer.cs" />
+    <Compile Include="Diagnostics\ProcessAlreadyStartedException.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\Actions\Action.cs" />
+    <Compile Include="Providers\Actions\IActionsProvider.cs" />
+    <Compile Include="Providers\Actions\JsonActionsProvider.cs" />
+    <Compile Include="Providers\JsonProviderBase.cs" />
+    <Compile Include="Services\BatteryStateEventArgs.cs" />
+    <Compile Include="Services\LocalBattery\LocalBatteryService.cs" />
+    <Compile Include="Services\BatteryStatus.cs" />
+    <Compile Include="Services\LocalBattery\ILocalBatteryService.cs" />
+    <Compile Include="Services\IBatteryProvider.cs" />
+    <Compile Include="Services\NetworkBattery\INetworkBatteryService.cs" />
+    <Compile Include="Services\NetworkBattery\NetBatteryState.cs" />
+    <Compile Include="Services\NetworkBattery\NetworkBatteryService.cs" />
+    <Compile Include="Models\Settings\NetType.cs" />
+    <Compile Include="VersionFormatter.cs" />
+    <Compile Include="Services\ExportLifetime\ExportLifetimeService.cs" />
+    <Compile Include="Services\ExportLifetime\IExportLifetimeService.cs" />
+    <Compile Include="Models\Settings\AppSettings.cs" />
+    <Compile Include="Models\Settings\DefaultSettings.cs" />
+    <Compile Include="Providers\Settings\EventArguments\SettingsChangedEventArgs.cs" />
+    <Compile Include="Providers\Settings\ISettingsProvider.cs" />
+    <Compile Include="Providers\Settings\JsonSettingsProvider.cs" />
+    <Compile Include="ViewModels\ActionsViewModel.cs" />
+    <Compile Include="ViewModels\ClientSettingsViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\NetworkSettingsPageViewModel.cs" />
+    <Compile Include="ViewModels\ServerSettingsViewModel.cs" />
+    <Compile Include="Views\IActionsPage.cs" />
+    <Compile Include="Views\IClientSettingsView.cs" />
+    <Compile Include="Views\IMainWindow.cs" />
+    <Compile Include="Views\INetworkSettingsPage.cs" />
+    <Compile Include="Views\IServerSettingsView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icons\100_battery.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\25_battery.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\50_battery.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\75_battery.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\charging_battery.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\epsent_battery.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\low_battery.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tray_icon.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
