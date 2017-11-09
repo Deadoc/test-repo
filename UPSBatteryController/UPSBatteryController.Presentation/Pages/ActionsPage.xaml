@@ -4,9 +4,361 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UPSBatteryController.Presentation.Pages"
+             xmlns:models="clr-namespace:UPSBatteryController.Models;assembly=UPSBatteryController"
+             xmlns:vsm="clr-namespace:System.Windows;assembly=PresentationFramework"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:actions="clr-namespace:UPSBatteryController.Providers.Actions;assembly=UPSBatteryController"
              mc:Ignorable="d" 
              Title="Действия">
     <Grid>
-            
+        <ListView ItemsSource="{Binding Path=Actions}"
+              Background="Transparent"
+              HorizontalAlignment="Stretch"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+              ScrollViewer.VerticalScrollBarVisibility="Auto"
+              Grid.IsSharedSizeScope="True"
+              BorderThickness="0"
+              ScrollViewer.CanContentScroll="False">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <ContentPresenter x:Name="PART_Header"
+                                              Margin="0,0,3,0"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:ActionModel}">
+                    <Border BorderThickness="1"
+                            BorderBrush="{StaticResource TextBrushDark}">
+                        <Grid Margin="10"
+                              Grid.IsSharedSizeScope="True">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"
+                                                      SharedSizeGroup="name"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Заряд ниже"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource TextBrushDark}"
+                                           Margin="0,0,5,0"/>
+                                <ComboBox Grid.Column="1"
+                                          SelectedItem="{Binding Path=BatteryLevel}"
+                                          ItemStringFormat="{}{0} %">
+                                    <ComboBox.ItemsSource>
+                                        <Int32Collection>5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100</Int32Collection>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                            </Grid>
+                            
+                            <Grid Grid.Row="1"
+                                  Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"
+                                                      SharedSizeGroup="name"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Действие"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource TextBrushDark}"/>
+                                <ComboBox Grid.Column="1"
+                                          SelectedItem="{Binding Path=Type}">
+                                    <ComboBox.Resources>
+                                        <ObjectDataProvider MethodName="GetValues"
+                                                            ObjectType="{x:Type System:Enum}"
+                                                            x:Key="typesFromEnum">
+                                            <ObjectDataProvider.MethodParameters>
+                                                <x:Type TypeName="actions:ActionType"/>
+                                            </ObjectDataProvider.MethodParameters>
+                                        </ObjectDataProvider>
+                                    </ComboBox.Resources>
+
+                                    <ComboBox.ItemsSource>
+                                        <Binding Source="{StaticResource typesFromEnum}"/>
+                                    </ComboBox.ItemsSource>
+
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value=""/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Path=.}" Value="{x:Static actions:ActionType.Shutdown}">
+                                                                <Setter Property="Text" Value="Завершение работы"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Path=.}" Value="{x:Static actions:ActionType.Custom}">
+                                                                <Setter Property="Text" Value="Запуск программы"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </Grid>
+
+                            <Grid Grid.Row="2"
+                                  Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"
+                                                      SharedSizeGroup="name"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Type}"
+                                                         Value="{x:Static actions:ActionType.Custom}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <TextBlock Text="Программа"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource TextBrushDark}"
+                                           Margin="0,0,5,0"/>
+                                <TextBox Grid.Column="1"/>
+                            </Grid>
+
+                            <Grid Grid.Row="3"
+                                  Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"
+                                                      SharedSizeGroup="name"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Type}"
+                                                         Value="{x:Static actions:ActionType.Custom}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <TextBlock Text="Аргументы"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource TextBrushDark}"
+                                           Margin="0,0,5,0"/>
+                                <TextBox Grid.Column="1"
+                                         Name="ArgumentsTextBox"/>
+                                <TextBlock IsHitTestVisible="False" 
+                                           Text="Необязательно" 
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Left" 
+                                           Margin="5,0,5,0" 
+                                           Foreground="DarkGray"
+                                           FontSize="12"
+                                           FontStyle="Italic"
+                                           Grid.Column="1">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Hidden" />
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding ElementName=ArgumentsTextBox, Path=Text.IsEmpty}" Value="True" />
+                                                        <Condition Binding="{Binding ElementName=ArgumentsTextBox, Path=IsKeyboardFocused}" Value="False" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+
+                            <Grid Grid.Row="4"
+                                  Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"
+                                                      SharedSizeGroup="name"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Type}"
+                                                         Value="{x:Static actions:ActionType.Custom}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <TextBlock Text="Рабочая папка"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource TextBrushDark}"
+                                           Margin="0,0,5,0"/>
+                                <TextBox Grid.Column="1"
+                                         Name="WorkingDir"/>
+                                <TextBlock IsHitTestVisible="False" 
+                                           Text="Необязательно" 
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Left" 
+                                           Margin="5,0,5,0" 
+                                           Foreground="DarkGray"
+                                           FontSize="12"
+                                           FontStyle="Italic"
+                                           Grid.Column="1">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Hidden" />
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding ElementName=WorkingDir, Path=Text.IsEmpty}" Value="True" />
+                                                        <Condition Binding="{Binding ElementName=WorkingDir, Path=IsKeyboardFocused}" Value="False" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Resources>
+                <Style TargetType="{x:Type ScrollBar}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ScrollBar">
+                                <ControlTemplate.Resources>
+                                    <ControlTemplate x:Key="VerticalThumbTemplate" TargetType="Thumb">
+                                        <Grid>
+                                            <vsm:VisualStateManager.VisualStateGroups>
+                                                <vsm:VisualStateGroup x:Name="CommonStates">
+                                                    <vsm:VisualState x:Name="Normal" />
+                                                    <vsm:VisualState x:Name="MouseOver">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0:0:0" Storyboard.TargetName="BackgroundMouseOver" Storyboard.TargetProperty="Opacity" To="1"/>
+                                                            <ColorAnimation Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[3].(GradientStop.Color)" Duration="0" To="#7FFFFFFF"/>
+                                                            <ColorAnimation Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Color)" Duration="0" To="#CCFFFFFF"/>
+                                                            <ColorAnimation Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Duration="0" To="#F2FFFFFF"/>
+                                                        </Storyboard>
+                                                    </vsm:VisualState>
+                                                    <vsm:VisualState x:Name="Pressed">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0:0:0" Storyboard.TargetName="BackgroundPressed" Storyboard.TargetProperty="Opacity" To="1"/>
+                                                            <DoubleAnimation Storyboard.TargetName="Highlight" Storyboard.TargetProperty="(UIElement.Opacity)" Duration="0" To="1"/>
+                                                            <ColorAnimation Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[3].(GradientStop.Color)" Duration="0" To="#6BFFFFFF"/>
+                                                            <ColorAnimation Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Color)" Duration="0" To="#C6FFFFFF"/>
+                                                            <ColorAnimation Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Duration="0" To="#EAFFFFFF"/>
+                                                            <ColorAnimation Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Duration="0" To="#F4FFFFFF"/>
+                                                        </Storyboard>
+                                                    </vsm:VisualState>
+                                                    <vsm:VisualState x:Name="Disabled">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0:0:0" Storyboard.TargetName="ThumbVisual" Storyboard.TargetProperty="Opacity" To="0" />
+                                                        </Storyboard>
+                                                    </vsm:VisualState>
+                                                </vsm:VisualStateGroup>
+                                            </vsm:VisualStateManager.VisualStateGroups>
+                                            <Grid x:Name="ThumbVisual" Margin="1,0,1,0">
+                                                <Rectangle x:Name="Background" RadiusX="2" RadiusY="2" Fill="#FF1F3B53" StrokeThickness="1">
+                                                    <Rectangle.Stroke>
+                                                        <LinearGradientBrush EndPoint="1,.5" StartPoint="0,.5">
+                                                            <GradientStop Color="#FF818F99" Offset="1"/>
+                                                            <GradientStop Color="#FFC2C9CE" Offset="0"/>
+                                                            <GradientStop Color="#FFB3BBC1" Offset="0.35"/>
+                                                            <GradientStop Color="#FF96A4B1" Offset="0.35"/>
+                                                        </LinearGradientBrush>
+                                                    </Rectangle.Stroke>
+                                                </Rectangle>
+                                                <Rectangle x:Name="BackgroundMouseOver" Opacity="0" RadiusX="2" RadiusY="2" Fill="#FF448DCA" StrokeThickness="1" Stroke="#00000000"/>
+                                                <Rectangle x:Name="BackgroundPressed" Opacity="0" RadiusX="2" RadiusY="2" Fill="#FF448DCA" StrokeThickness="1" Stroke="#00000000"/>
+                                                <Rectangle x:Name="BackgroundGradient" RadiusX="1" RadiusY="1" StrokeThickness="1" Margin="1" Stroke="#FFFFFFFF">
+                                                    <Rectangle.Fill>
+                                                        <LinearGradientBrush StartPoint="0,.7" EndPoint="1,.7">
+                                                            <GradientStop Color="#FFFFFFFF" Offset="0" />
+                                                            <GradientStop Color="#F9FFFFFF" Offset="0.375" />
+                                                            <GradientStop Color="#E5FFFFFF" Offset="0.6" />
+                                                            <GradientStop Color="#C6FFFFFF" Offset="1" />
+                                                        </LinearGradientBrush>
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                                <Rectangle x:Name="Highlight" RadiusX="1" RadiusY="1" Opacity="0" IsHitTestVisible="false" Stroke="#FF6DBDD1" StrokeThickness="1" Margin="1" />
+                                            </Grid>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ControlTemplate.Resources>
+                                <Grid x:Name="VerticalRoot">
+                                    <Grid Width="2"
+                                      HorizontalAlignment="Center">
+                                        <!-- Track Layer -->
+                                        <Rectangle RadiusX="1" RadiusY="1" StrokeThickness="1" Stroke="#00000000">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="1,0.5" EndPoint="0,0.5">
+                                                    <GradientStop Color="#FFF4F6F7" Offset="0"/>
+                                                    <GradientStop Color="#FFF0F4F7" Offset="0.344"/>
+                                                    <GradientStop Color="#FFDFE3E6" Offset="1"/>
+                                                    <GradientStop Color="#FFE9EEF4" Offset="0.527"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <Rectangle RadiusX="1" RadiusY="1" StrokeThickness="1" Opacity=".375">
+                                            <Rectangle.Stroke>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FFA3AEB9" Offset="0"/>
+                                                    <GradientStop Color="#FF8399A9" Offset="0.375"/>
+                                                    <GradientStop Color="#FF718597" Offset="0.375"/>
+                                                    <GradientStop Color="#FF617584" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Stroke>
+                                        </Rectangle>
+                                        <Rectangle RadiusX="1" RadiusY="1" Margin="1">
+                                            <Rectangle.Stroke>
+                                                <LinearGradientBrush EndPoint="0.125,0.5" StartPoint="0.875,0.5">
+                                                    <GradientStop Color="#33FFFFFF"/>
+                                                    <GradientStop Color="#99FFFFFF" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Stroke>
+                                        </Rectangle>
+                                    </Grid>
+
+                                    <Track x:Name="PART_Track"
+                                       IsDirectionReversed="True"
+                                       Width="8"
+                                       HorizontalAlignment="Center">
+                                        <Track.Thumb>
+                                            <Thumb x:Name="VerticalThumb" MinHeight="18" Template="{StaticResource VerticalThumbTemplate}" />
+                                        </Track.Thumb>
+                                    </Track>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.Resources>
+        </ListView>
     </Grid>
 </Page>

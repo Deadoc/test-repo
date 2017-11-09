@@ -116,6 +116,8 @@
     <Compile Include="Diagnostics\CmdRunner.cs" />
     <Compile Include="Diagnostics\OutputBuffer.cs" />
     <Compile Include="Diagnostics\ProcessAlreadyStartedException.cs" />
+    <Compile Include="Models\ActionModel.cs" />
+    <Compile Include="Providers\Actions\ActionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\Actions\Action.cs" />
     <Compile Include="Providers\Actions\IActionsProvider.cs" />
