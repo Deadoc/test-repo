@@ -22,8 +22,8 @@ namespace UPSBatteryController.Providers.Actions
         /// <summary>
         /// Удалить действие
         /// </summary>
-        /// <param name="action"></param>
-        void Remove(Action action);
+        /// <param name="actionId"></param>
+        void Remove(Guid actionId);
 
         /// <summary>
         /// Обновить действие

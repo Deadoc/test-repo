@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Waf.Applications;
+using System.Windows.Forms;
 using System.Windows.Input;
 using UPSBatteryController.Models;
 using UPSBatteryController.Providers.Actions;
@@ -41,6 +42,16 @@ namespace UPSBatteryController.ViewModels
         /// </summary>
         public ICommand RemoveActionCommand { get; private set; }
 
+        /// <summary>
+        /// Сохранить изменения
+        /// </summary>
+        public ICommand SaveActionCommand { get; private set; }
+
+        /// <summary>
+        /// Выбрать программу
+        /// </summary>
+        public ICommand SelectProgrammCommand { get; private set; }
+
         #endregion
 
         [ImportingConstructor]
@@ -53,21 +64,37 @@ namespace UPSBatteryController.ViewModels
             Actions = new ReadOnlyObservableCollection<ActionModel>(_actions);
 
             AddActionCommand = new DelegateCommand(AddAction);
-            RemoveActionCommand = new DelegateCommand((obj) => RemoveAction(obj as Providers.Actions.Action));
-
-            _actions.Add(new ActionModel(Providers.Actions.Action.Create()));
+            RemoveActionCommand = new DelegateCommand((obj) => RemoveAction(obj as ActionModel));
+            SaveActionCommand = new DelegateCommand((obj) => SaveAction(obj as ActionModel));
+            SelectProgrammCommand = new DelegateCommand((obj) => SelectProgramm(obj as ActionModel));
         }
 
         #region Functions
 
         private void AddAction()
         {
+            var action = Providers.Actions.Action.Create();
+            _actions.Add(new ActionModel(action));
+            _actionsProvider.Add(action);
+        }
+
+        private void RemoveAction(ActionModel action)
+        {
+            _actionsProvider.Remove(action.Id);
+            _actions.Remove(action);
+        }
+
+        private void SaveAction(ActionModel action)
+        {
 
         }
 
-        private void RemoveAction(Providers.Actions.Action action)
+        private void SelectProgramm(ActionModel action)
         {
+            OpenFileDialog ofDialog = new OpenFileDialog();
 
+            if(ofDialog.ShowDialog() == DialogResult.OK)
+                action.Programm = ofDialog.FileName;
         }
 
         #endregion

@@ -13,5 +13,8 @@
                 x:Key="Minimize"/>
     <ImageBrush ImageSource="/UPSBatteryController.Presentation;component/Images/close.png"
                 x:Key="Close"/>
-    
+    <ImageBrush ImageSource="/UPSBatteryController.Presentation;component/Images/check.png"
+                x:Key="Check"/>
+    <ImageBrush ImageSource="/UPSBatteryController.Presentation;component/Images/dots.png"
+                x:Key="Dots"/>
 </ResourceDictionary>

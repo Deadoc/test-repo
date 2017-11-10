@@ -31,7 +31,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Background="Transparent"
-                            BorderBrush="{StaticResource TextBrushLight}"
+                            BorderBrush="#FF97A0A5"
                             BorderThickness="1"
                             TextBlock.Foreground="{StaticResource TextBrushLight}"
                             Padding="5,3"
@@ -47,7 +47,7 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="buttonBorder" Property="TextBlock.Foreground" Value="{StaticResource ResourceKey=TextBrushDark}"/>
-                            <Setter TargetName="buttonBorder" Property="BorderBrush" Value="{StaticResource ResourceKey=TextBrushDark}"/>
+                            <Setter TargetName="buttonBorder" Property="BorderBrush" Value="#5F97A0A5"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

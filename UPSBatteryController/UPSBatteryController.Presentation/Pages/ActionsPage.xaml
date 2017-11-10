@@ -11,14 +11,25 @@
              mc:Ignorable="d" 
              Title="Действия">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Command="{Binding Path=AddActionCommand}"
+                HorizontalAlignment="Left"
+                Style="{StaticResource ButtonStyle}"
+                Content="Добавить"
+                Margin="1,0,0,0"/>
+        
         <ListView ItemsSource="{Binding Path=Actions}"
-              Background="Transparent"
-              HorizontalAlignment="Stretch"
-              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-              ScrollViewer.VerticalScrollBarVisibility="Auto"
-              Grid.IsSharedSizeScope="True"
-              BorderThickness="0"
-              ScrollViewer.CanContentScroll="False">
+                  Background="Transparent"
+                  HorizontalAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  Grid.IsSharedSizeScope="True"
+                  BorderThickness="0"
+                  Grid.Row="1"
+                  ScrollViewer.CanContentScroll="False">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -36,212 +47,273 @@
                 <DataTemplate DataType="{x:Type models:ActionModel}">
                     <Border BorderThickness="1"
                             BorderBrush="{StaticResource TextBrushDark}">
-                        <Grid Margin="10"
-                              Grid.IsSharedSizeScope="True">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"
-                                                      SharedSizeGroup="name"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Заряд ниже"
-                                           VerticalAlignment="Center"
-                                           Foreground="{StaticResource TextBrushDark}"
-                                           Margin="0,0,5,0"/>
-                                <ComboBox Grid.Column="1"
-                                          SelectedItem="{Binding Path=BatteryLevel}"
-                                          ItemStringFormat="{}{0} %">
-                                    <ComboBox.ItemsSource>
-                                        <Int32Collection>5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100</Int32Collection>
-                                    </ComboBox.ItemsSource>
-                                </ComboBox>
-                            </Grid>
+                        <Grid Margin="10,10,5,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.IsSharedSizeScope="True">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"
+                                                          SharedSizeGroup="name"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Заряд ниже"
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource TextBrushDark}"
+                                               Margin="0,0,5,0"/>
+                                    <ComboBox Grid.Column="1"
+                                              SelectedItem="{Binding Path=BatteryLevel}"
+                                              ItemStringFormat="{}{0} %">
+                                        <ComboBox.ItemsSource>
+                                            <Int32Collection>5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100</Int32Collection>
+                                        </ComboBox.ItemsSource>
+                                    </ComboBox>
+                                </Grid>
                             
-                            <Grid Grid.Row="1"
-                                  Margin="0,5,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"
-                                                      SharedSizeGroup="name"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Действие"
-                                           VerticalAlignment="Center"
-                                           Foreground="{StaticResource TextBrushDark}"/>
-                                <ComboBox Grid.Column="1"
-                                          SelectedItem="{Binding Path=Type}">
-                                    <ComboBox.Resources>
-                                        <ObjectDataProvider MethodName="GetValues"
-                                                            ObjectType="{x:Type System:Enum}"
-                                                            x:Key="typesFromEnum">
-                                            <ObjectDataProvider.MethodParameters>
-                                                <x:Type TypeName="actions:ActionType"/>
-                                            </ObjectDataProvider.MethodParameters>
-                                        </ObjectDataProvider>
-                                    </ComboBox.Resources>
+                                <Grid Grid.Row="1"
+                                      Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"
+                                                          SharedSizeGroup="name"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Действие"
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource TextBrushDark}"/>
+                                    <ComboBox Grid.Column="1"
+                                              SelectedItem="{Binding Path=Type}">
+                                        <ComboBox.Resources>
+                                            <ObjectDataProvider MethodName="GetValues"
+                                                                ObjectType="{x:Type System:Enum}"
+                                                                x:Key="typesFromEnum">
+                                                <ObjectDataProvider.MethodParameters>
+                                                    <x:Type TypeName="actions:ActionType"/>
+                                                </ObjectDataProvider.MethodParameters>
+                                            </ObjectDataProvider>
+                                        </ComboBox.Resources>
 
-                                    <ComboBox.ItemsSource>
-                                        <Binding Source="{StaticResource typesFromEnum}"/>
-                                    </ComboBox.ItemsSource>
+                                        <ComboBox.ItemsSource>
+                                            <Binding Source="{StaticResource typesFromEnum}"/>
+                                        </ComboBox.ItemsSource>
 
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock>
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="Text" Value=""/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Path=.}" Value="{x:Static actions:ActionType.Shutdown}">
-                                                                <Setter Property="Text" Value="Завершение работы"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Path=.}" Value="{x:Static actions:ActionType.Custom}">
-                                                                <Setter Property="Text" Value="Запуск программы"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-                            </Grid>
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Text" Value=""/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Path=.}" Value="{x:Static actions:ActionType.Shutdown}">
+                                                                    <Setter Property="Text" Value="Завершение работы"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Path=.}" Value="{x:Static actions:ActionType.Custom}">
+                                                                    <Setter Property="Text" Value="Запуск программы"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </Grid>
 
-                            <Grid Grid.Row="2"
-                                  Margin="0,5,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"
-                                                      SharedSizeGroup="name"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=Type}"
-                                                         Value="{x:Static actions:ActionType.Custom}">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>
-                                <TextBlock Text="Программа"
-                                           VerticalAlignment="Center"
-                                           Foreground="{StaticResource TextBrushDark}"
-                                           Margin="0,0,5,0"/>
-                                <TextBox Grid.Column="1"/>
-                            </Grid>
-
-                            <Grid Grid.Row="3"
-                                  Margin="0,5,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"
-                                                      SharedSizeGroup="name"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=Type}"
-                                                         Value="{x:Static actions:ActionType.Custom}">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>
-                                <TextBlock Text="Аргументы"
-                                           VerticalAlignment="Center"
-                                           Foreground="{StaticResource TextBrushDark}"
-                                           Margin="0,0,5,0"/>
-                                <TextBox Grid.Column="1"
-                                         Name="ArgumentsTextBox"/>
-                                <TextBlock IsHitTestVisible="False" 
-                                           Text="Необязательно" 
-                                           VerticalAlignment="Center" 
-                                           HorizontalAlignment="Left" 
-                                           Margin="5,0,5,0" 
-                                           Foreground="DarkGray"
-                                           FontSize="12"
-                                           FontStyle="Italic"
-                                           Grid.Column="1">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Visibility" Value="Hidden" />
+                                <Grid Grid.Row="2"
+                                      Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"
+                                                          SharedSizeGroup="name"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
                                             <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding ElementName=ArgumentsTextBox, Path=Text.IsEmpty}" Value="True" />
-                                                        <Condition Binding="{Binding ElementName=ArgumentsTextBox, Path=IsKeyboardFocused}" Value="False" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Visibility" Value="Visible" />
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding Path=Type}"
+                                                             Value="{x:Static actions:ActionType.Custom}">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </Grid>
+                                    </Grid.Style>
+                                    <TextBlock Text="Программа"
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource TextBrushDark}"
+                                               Margin="0,0,5,0"/>
+                                    <TextBox Grid.Column="1"
+                                             Text="{Binding Path=Programm}"
+                                             IsReadOnly="True"/>
+                                    <Button Command="{Binding Path=DataContext.SelectProgrammCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}}"
+                                            CommandParameter="{Binding Path=.}"
+                                            Grid.Column="2"
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Top"
+                                            Width="22"
+                                            Height="20"
+                                            Style="{StaticResource ButtonStyle}"
+                                            ToolTip="Открыть">
+                                        <Border  Background="{StaticResource Dots}"
+                                                 Margin="0,5"/>
+                                    </Button>
+                                </Grid>
 
-                            <Grid Grid.Row="4"
-                                  Margin="0,5,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"
-                                                      SharedSizeGroup="name"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=Type}"
-                                                         Value="{x:Static actions:ActionType.Custom}">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>
-                                <TextBlock Text="Рабочая папка"
-                                           VerticalAlignment="Center"
-                                           Foreground="{StaticResource TextBrushDark}"
-                                           Margin="0,0,5,0"/>
-                                <TextBox Grid.Column="1"
-                                         Name="WorkingDir"/>
-                                <TextBlock IsHitTestVisible="False" 
-                                           Text="Необязательно" 
-                                           VerticalAlignment="Center" 
-                                           HorizontalAlignment="Left" 
-                                           Margin="5,0,5,0" 
-                                           Foreground="DarkGray"
-                                           FontSize="12"
-                                           FontStyle="Italic"
-                                           Grid.Column="1">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Visibility" Value="Hidden" />
+                                <Grid Grid.Row="3"
+                                      Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"
+                                                          SharedSizeGroup="name"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
                                             <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding ElementName=WorkingDir, Path=Text.IsEmpty}" Value="True" />
-                                                        <Condition Binding="{Binding ElementName=WorkingDir, Path=IsKeyboardFocused}" Value="False" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Visibility" Value="Visible" />
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding Path=Type}"
+                                                             Value="{x:Static actions:ActionType.Custom}">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                    </Grid.Style>
+                                    <TextBlock Text="Аргументы"
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource TextBrushDark}"
+                                               Margin="0,0,5,0"/>
+                                    <TextBox Grid.Column="1"
+                                             Name="ArgumentsTextBox"
+                                             Text="{Binding Path=Arguments, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock IsHitTestVisible="False" 
+                                               Text="Необязательно" 
+                                               VerticalAlignment="Center" 
+                                               HorizontalAlignment="Left" 
+                                               Margin="5,0,5,0" 
+                                               Foreground="DarkGray"
+                                               FontSize="12"
+                                               FontStyle="Italic"
+                                               Grid.Column="1">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Visibility" Value="Hidden" />
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding ElementName=ArgumentsTextBox, Path=Text.IsEmpty}" Value="True" />
+                                                            <Condition Binding="{Binding ElementName=ArgumentsTextBox, Path=IsKeyboardFocused}" Value="False" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <MultiDataTrigger.Setters>
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </MultiDataTrigger.Setters>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
+
+                                <Grid Grid.Row="4"
+                                      Margin="0,5,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"
+                                                          SharedSizeGroup="name"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=Type}"
+                                                             Value="{x:Static actions:ActionType.Custom}">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <TextBlock Text="Рабочая папка"
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource TextBrushDark}"
+                                               Margin="0,0,5,0"/>
+                                    <TextBox Grid.Column="1"
+                                             Name="WorkingDir"
+                                             Text="{Binding Path=WorkingDir, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock IsHitTestVisible="False" 
+                                               Text="Необязательно" 
+                                               VerticalAlignment="Center" 
+                                               HorizontalAlignment="Left" 
+                                               Margin="5,0,5,0" 
+                                               Foreground="DarkGray"
+                                               FontSize="12"
+                                               FontStyle="Italic"
+                                               Grid.Column="1">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Visibility" Value="Hidden" />
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding ElementName=WorkingDir, Path=Text.IsEmpty}" Value="True" />
+                                                            <Condition Binding="{Binding ElementName=WorkingDir, Path=IsKeyboardFocused}" Value="False" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <MultiDataTrigger.Setters>
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </MultiDataTrigger.Setters>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Button Command="{Binding Path=DataContext.RemoveActionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}}"
+                                        CommandParameter="{Binding Path=.}"
+                                        Grid.Row="0"
+                                        Margin="10,0,0,0"
+                                        VerticalAlignment="Top"
+                                        Width="20"
+                                        Height="20"
+                                        Style="{StaticResource ButtonStyle}"
+                                        ToolTip="Удалить">
+                                    <Border  Background="{StaticResource Close}"
+                                             Margin="0,2"/>
+                                </Button>
+
+                                <Button Command="{Binding Path=DataContext.SaveActionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ListView}}"
+                                        CommandParameter="{Binding Path=.}"
+                                        Grid.Row="1"
+                                        Margin="10,0,0,0"
+                                        VerticalAlignment="Bottom"
+                                        Width="20"
+                                        Height="20"
+                                        ToolTip="Сохранить">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=HaveChanges}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <Border  Background="{StaticResource Check}"
+                                             Margin="0,2"/>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Border>

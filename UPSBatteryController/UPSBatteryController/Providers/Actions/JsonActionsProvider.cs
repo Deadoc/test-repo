@@ -15,7 +15,7 @@ namespace UPSBatteryController.Providers.Actions
     {
         #region Fields
 
-        private string _listFilePath = Path.Combine(DefaultSettings.WorkingDirectory, DefaultSettings.ConfigurationFileName);
+        private string _listFilePath = Path.Combine(DefaultSettings.WorkingDirectory, DefaultSettings.ActionsListFileName);
         private ISettingsProvider _settingsService;
         private List<Action> _actions;
 
@@ -73,18 +73,15 @@ namespace UPSBatteryController.Providers.Actions
         /// Удалить действие
         /// </summary>
         /// <param name="action"></param>
-        public void Remove(Action action)
+        public void Remove(Guid actionId)
         {
-            if (action != null)
+            var existingAction = _actions.FirstOrDefault(a => a.Id == actionId);
+            if (existingAction != null)
             {
-                var existingAction = _actions.FirstOrDefault(a => a.Id == action.Id);
-                if (existingAction != null)
-                {
-                    _actions.Remove(existingAction);
+                _actions.Remove(existingAction);
 
-                    Write(_listFilePath, _actions);
-                    ActionsListUpdated?.Invoke(this, EventArgs.Empty);
-                }
+                Write(_listFilePath, _actions);
+                ActionsListUpdated?.Invoke(this, EventArgs.Empty);
             }
         }
 

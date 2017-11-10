@@ -9,6 +9,8 @@ namespace UPSBatteryController.Models.Settings
 {
     internal static class DefaultSettings
     {
+        public const string ActionsListFileName = "actions.json";
+
         public const string ConfigurationFileName = "config.json";
 
         public static readonly string WorkingDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "UPSBatteryController");
